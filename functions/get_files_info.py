@@ -3,13 +3,6 @@ import os
 
 def get_files_info(working_directory: str, directory: str = ".") -> str:
     try:
-       
-        if directory == ".":
-            directory_name = "current"
-        else:
-            directory_name = f"'{directory}'"
-
-
         absolute_working_directory = os.path.abspath(working_directory)
 
         target_directory = os.path.normpath(os.path.join(absolute_working_directory, directory))
