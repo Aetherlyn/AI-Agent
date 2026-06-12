@@ -9,11 +9,12 @@ schema_get_file_content = types.FunctionDeclaration(
     parameters=types.Schema(
         type=types.Type.OBJECT,
         properties={
-            "file path": types.Schema(
+            "file_path": types.Schema(
                 type=types.Type.STRING,
                 description="Path to the file.",
             ),
         },
+        required=["file_path"]
     ),
 )
 

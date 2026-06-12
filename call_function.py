@@ -7,3 +7,5 @@ from functions.get_file_content import schema_get_file_content
 available_functions = types.Tool(
     function_declarations=[schema_get_files_info, schema_write_file, schema_run_python_file, schema_get_file_content],
 )
+
+print(schema_get_file_content)

@@ -9,11 +9,17 @@ schema_run_python_file = types.FunctionDeclaration(
     parameters=types.Schema(
         type=types.Type.OBJECT,
         properties={
-            "file path + optional args": types.Schema(
+            "file_path": types.Schema(
                 type=types.Type.STRING,
+                description="Path to the file",
+            ),
+            "args": types.Schema(
+                type=types.Type.ARRAY,
                 description="Arguments to pass to the Python file",
+                items=types.Schema(type=types.Type.STRING)
             ),
         },
+        required=["file_path"]
     ),
 )
 
