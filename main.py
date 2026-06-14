@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 from prompts import system_prompt
-from call_function import available_functions
+from call_function import *
 
 load_dotenv()
 api_key = os.environ.get("GEMINI_API_KEY")
@@ -31,14 +31,26 @@ def main():
     if not response.usage_metadata:
         raise RuntimeError("Gemini API response appears to be malformed")
     
+    function_responses: list[types.Part] = []
+
     if response.function_calls:
         for function in response.function_calls:
-            print(f"Calling function: {function.name}({function.args})")
+            call_result = call_function(function, args.verbose)
+            if len(call_result.parts) <= 0:
+                raise Exception("Error: Parts list is empty")
+            if call_result.parts[0].function_response == None:
+                raise Exception("Error: Function response is None")
+            if call_result.parts[0].function_response.response == None:
+                raise Exception("Error: Function response, response is None")
+            function_responses.append(call_result.parts[0])
+            
+            if args.verbose:
+                print(f"-> {call_result.parts[0].function_response.response}")
     else:
         if args.verbose:
             print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
             print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
-       
+        
         print(f"Response:\n{response.text}")
 
 if __name__ == "__main__":
